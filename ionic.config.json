@@ -1,0 +1,7 @@
+{
+  "name": "devgram",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
