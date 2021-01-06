@@ -1,7 +1,7 @@
 import { Post } from './../../models/post.model';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { ToastController, NavController, AlertController } from '@ionic/angular';
 
 @Component({
@@ -12,6 +12,9 @@ import { ToastController, NavController, AlertController } from '@ionic/angular'
 export class PostPage implements OnInit {
   public post: Post = new Post('', '', null);
   public filters: string[] = [];
+
+  public task: AngularFireUploadTask;
+  public progress: any;
 
   constructor(
     private db: AngularFirestore,
@@ -65,7 +68,7 @@ export class PostPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            localStorage.removeItem('baltagram.post');
+            localStorage.removeItem('devgram.post');
             this.close();
           }
         }, {
@@ -85,7 +88,29 @@ export class PostPage implements OnInit {
   }
 
   showMap() {
+    this.navCtrl.navigateForward("/map");
+  }
 
+  saveLocal() {
+    localStorage.setItem('devgram.post', JSON.stringify(this.post));
+  }
+
+  submit() {
+    const filePath = `post_${new Date().getTime()}.jpg`;
+    this.task = this.storage.ref(filePath).putString(this.post.image, 'data_url');
+    this.progress = this.task.percentageChanges();
+
+    this.task.then(
+      (data) => {
+      const ref = this.storage.ref(data.metadata.fullPath);
+      ref.getDownloadURL().subscribe(
+        (imgUrl) => {
+          this.post.image = imgUrl;
+          this.db.collection('posts').add(this.post);
+          localStorage.removeItem('devgram.post');
+          this.navCtrl.navigateBack("/home");
+        });
+    });
   }
 
 }

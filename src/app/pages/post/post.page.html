@@ -20,10 +20,10 @@
 
   <ion-item *ngIf="!post.location">
     <ion-icon name="pin" slot="start"></ion-icon>
-      <ion-label>
-        <small>Nenhuma localização</small>
-      </ion-label>
-      <ion-button fill="outline" slot="end" (click)="getLocation()">Ativar</ion-button>
+    <ion-label>
+      <small>Nenhuma localização</small>
+    </ion-label>
+    <ion-button fill="outline" slot="end" (click)="getLocation()">Ativar</ion-button>
   </ion-item>
 
   <ion-button ion-item fill="clear" expand="full" *ngIf="post.location" (click)="showMap()">
@@ -31,4 +31,14 @@
     Ver Localização
   </ion-button>
 
+  <ion-item lines="none">
+    <ion-textarea [(ngModel)]="post.description" placeholder="Descrição" (focusout)="saveLocal()"> </ion-textarea>
+  </ion-item>
+
+  <br>
+
+  <ion-progress-bar [value]="percent/100" *ngIf="progress | async as percent"></ion-progress-bar>
+  <ion-button ion-item fill="outline" shape="round" size="large" expand="block" (click)="submit()" *ngIf="!progress">
+    PUBLICAR
+  </ion-button>
 </ion-content>
