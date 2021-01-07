@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { NavController, ToastController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -7,11 +9,15 @@ import { NavController, ToastController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  posts: Observable<any[]>;
 
   constructor(
+    private db: AngularFirestore,
     private toastCtrl: ToastController,
     private navCtrl: NavController
-  ) { }
+  ) {
+    this.posts = db.collection('posts').valueChanges();
+   }
 
   ngOnInit() {
     const img = localStorage.getItem('devgram.post');
@@ -31,5 +37,9 @@ export class HomePage implements OnInit {
     });
     toast.present();
   } 
+
+  showOptions(){
+
+  }
 
 }
