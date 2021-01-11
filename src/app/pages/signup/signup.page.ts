@@ -21,7 +21,7 @@ export class SignupPage implements OnInit {
     this.form = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
-    })
+    });
   }
 
   ngOnInit() {
@@ -31,14 +31,15 @@ export class SignupPage implements OnInit {
     const loading = await this.loadingCtrl.create({ message: "Cadastrando..." });
     loading.present();
 
-    this.fbAuth.createUserWithEmailAndPassword(
-      this.form.controls['email'].value,
-      this.form.controls['password'].value
-    ).then((data) => {
-      this.showMessage('Bem-vindo');
-      loading.dismiss();
-      this.navCtrl.navigateRoot('login');
-    })
+    let email = this.form.controls['email'].value;
+    let password = this.form.controls['password'].value;
+
+    this.fbAuth.createUserWithEmailAndPassword(email, password).then(
+      (data) => {
+        this.showMessage('Bem-vindo');
+        loading.dismiss();
+        this.navCtrl.navigateRoot('login');
+      })
       .catch((err) => {
         loading.dismiss();
         this.showMessage('Não foi possível realizar seu cadastro');
@@ -53,7 +54,7 @@ export class SignupPage implements OnInit {
     toast.present;
   }
 
-  async cancel(){
+  async cancel() {
     this.navCtrl.navigateBack('login');
   }
 

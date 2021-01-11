@@ -1,3 +1,4 @@
+import { AuthGuard } from './guards/auth.guard';
 import { environment } from './../environments/environment';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,6 +20,7 @@ import { AngularFireModule } from '@angular/fire';
     AngularFireModule.initializeApp(environment.firebase)  
   ],
   providers: [
+    AuthGuard,
     { 
       provide: RouteReuseStrategy, 
       useClass: IonicRouteStrategy }
