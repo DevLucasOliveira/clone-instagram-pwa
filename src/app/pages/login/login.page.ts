@@ -2,7 +2,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase/auth';
+// import { auth } from 'firebase/auth';
 import { User } from 'src/app/models/user.model';
 
 @Component({
@@ -64,18 +64,16 @@ export class LoginPage implements OnInit {
   }
 
   async signInWithGoogle() {
-    this.fbAuth.signInWithPopup(new auth.GoogleAuthProvider()).then(
-      (data) => {
-        console.log(data);
-        localStorage.setItem('devgram.user', JSON.stringify(new User(data.user.displayName, data.user.email, data.user.photoURL)));
-        this.navCtrl.navigateRoot('home');
-      }).catch(
-        (err) => {
-          console.log(err);
-          this.showMessage('Usuário ou senha inválidos');
-        }
-      )
-
+    // this.fbAuth.signInWithPopup(new auth.GoogleAuthProvider()).then(
+    //   (data) => {
+    //     console.log(data);
+    //     localStorage.setItem('devgram.user', JSON.stringify(new User(data.user.displayName, data.user.email, data.user.photoURL)));
+    //     this.navCtrl.navigateRoot('home');
+    //   }).catch(
+    //     (err) => {
+    //       console.log(err);
+    //       this.showMessage('Usuário ou senha inválidos');
+    //     });
   }
 
 }
